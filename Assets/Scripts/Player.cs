@@ -20,14 +20,15 @@ public class Player : MonoBehaviour
     float _verticalSensitivity = 50;
 
     float _maxCameraDistance = 10;
-
-    float _cameraZoom = 0;
+    float _cameraZoom;
 
     float _cameraRadius = 0.15f;
 
     void Awake()
     {
         _action = new InputSystem_Actions();
+
+        _cameraZoom = _maxCameraDistance;
     }
 
     void OnEnable()
@@ -90,23 +91,20 @@ public class Player : MonoBehaviour
         //raycast
         Vector3 origin = _cameraPoint.position;
         Vector3 direction = -_camera.forward;
-        float maxDistance = _maxCameraDistance - _cameraZoom;
+        float maxDistance = _cameraZoom;
         RaycastHit hitInfo;
 
         bool raycastHit = Physics.SphereCast(origin: origin, radius: _cameraRadius, direction: direction, hitInfo: out hitInfo, maxDistance: maxDistance);
 
         _camera.transform.localPosition = new Vector3(0, 0, raycastHit ? -hitInfo.distance : -maxDistance);
 
-        //zoom
-        float scrollDelta = _action.Player.Zoom.ReadValue<Vector2>().y;
-
-        //check scroll to adjust max
-        if(scrollDelta != 0)
+        if(raycastHit)
         {
-            
+            _cameraZoom = hitInfo.distance;
         }
 
-        _cameraZoom = Mathf.Clamp(_cameraZoom + scrollDelta, 0, _maxCameraDistance);
+        //zoom
+        _cameraZoom = Mathf.Clamp(_cameraZoom + _action.Player.Zoom.ReadValue<Vector2>().y, 0, _maxCameraDistance);
     }
 
     void Mine()
