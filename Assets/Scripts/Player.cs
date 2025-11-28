@@ -15,6 +15,11 @@ public class Player : MonoBehaviour
 
     float _pitchValue = 45;
 
+    [Header("Mining")]
+    [SerializeField]
+    LayerMask _miningLayerMask;
+
+
     [Space]
     float _horizontalSensitivity = 50;
     float _verticalSensitivity = 50;
@@ -111,6 +116,25 @@ public class Player : MonoBehaviour
     {
         print("mine!");
 
-        // bool raycastHit = Physics.SphereCast()
+        Collider[] hitInfo = Physics.OverlapSphere(
+            position: transform.position + _cameraPoint.forward + Vector3.up,
+            radius: 0.5f,
+            layerMask: _miningLayerMask
+            );
+
+        foreach(Collider hit in hitInfo)
+        {
+            if(hit.TryGetComponent(out Ore ore))
+            {
+                print("found ore! - mining");
+                ore.Mine();
+            }
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + _cameraPoint.forward + Vector3.up, 0.5f);
     }
 }

@@ -5,6 +5,10 @@ public class Ore : MonoBehaviour
     [Header("Visuals")]
     [SerializeField]
     Renderer _oreVisual;
+    [SerializeField]
+    Material _oreMat;
+    [SerializeField]
+    Material _depletedMat;
 
     bool _mined;
 
@@ -12,19 +16,23 @@ public class Ore : MonoBehaviour
 
     void Regenerate()
     {
-        _oreVisual.enabled = true;
         _mined = false;
+
+        _oreVisual.material = _oreMat;
     }
 
-    void Mine()
+    public void Mine()
     {
+        Debug.LogWarning("RICE TODO: Convert this into an event SO");
+
         if(_mined)
         {
             Debug.Log("Rice Error: unable to mine - ore empty");
         }
 
-        _oreVisual.enabled = false;
         _mined = true;
+
+        _oreVisual.material = _depletedMat;
 
         Invoke(nameof(Regenerate), _oreRegenDelay);
     }

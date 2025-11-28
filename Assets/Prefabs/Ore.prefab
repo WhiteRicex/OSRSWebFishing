@@ -272,3 +272,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0548fabc3fecd9b578645bd9940fd72c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _oreVisual: {fileID: 1002079561779808845}
+  _depletedMat: {fileID: 2100000, guid: fcaf3489e78f177079b0b771799428fe, type: 2}
+  _oreMat: {fileID: 2100000, guid: c3295cf6f648ac10095225b722ba709a, type: 2}
