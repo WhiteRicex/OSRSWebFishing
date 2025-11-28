@@ -786,6 +786,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1682529872328328365, guid: ee53666e0bdd7746ca791ef51baf5c58, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682529872328328365, guid: ee53666e0bdd7746ca791ef51baf5c58, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3648967643134847575, guid: ee53666e0bdd7746ca791ef51baf5c58, type: 3}
       propertyPath: _camera
       value: 
@@ -798,6 +806,14 @@ PrefabInstance:
       propertyPath: _cameraPoint
       value: 
       objectReference: {fileID: 1205304157}
+    - target: {fileID: 4399322881620438526, guid: ee53666e0bdd7746ca791ef51baf5c58, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4399322881620438526, guid: ee53666e0bdd7746ca791ef51baf5c58, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5003035543787417018, guid: ee53666e0bdd7746ca791ef51baf5c58, type: 3}
       propertyPath: m_Name
       value: Player

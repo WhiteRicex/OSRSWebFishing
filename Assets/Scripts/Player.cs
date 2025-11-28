@@ -19,6 +19,12 @@ public class Player : MonoBehaviour
     float _horizontalSensitivity = 50;
     float _verticalSensitivity = 50;
 
+    float _maxCameraDistance = 10;
+
+    float _cameraZoom = 0;
+
+    float _cameraRadius = 0.15f;
+
     void Awake()
     {
         _action = new InputSystem_Actions();
@@ -52,10 +58,6 @@ public class Player : MonoBehaviour
     {
         Vector2 input = _action.Player.Move.ReadValue<Vector2>();
 
-        // Vector3 forward = new Vector3(_cameraHolder.transform.forward.x, 0, _cameraHolder.transform.forward.z);
-        // Vector3 right = new Vector3(_cameraHolder.transform.right.x, 0, _cameraHolder.transform.right.z);
-
-        // Vector3 rotatedInput = right * input.x + forward * input.y;
         Vector3 rotatedInput = _cameraPoint.right * input.x + _cameraPoint.forward * input.y;
 
         Vector3 moveDir = rotatedInput.normalized * 5 * Time.deltaTime;
@@ -66,12 +68,11 @@ public class Player : MonoBehaviour
     void Look()
     {
         //move camera to player.
-        _cameraPoint.position = transform.position;
+        _cameraPoint.position = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
 
-        //mouse input
         Vector2 input = Vector2.zero;
 
-        if(_action.Player.Aim.ReadValue<float>() > 0)
+        if(_action.Player.Aim.IsPressed())
         {
             input = _action.Player.Look.ReadValue<Vector2>();
         }
@@ -87,18 +88,31 @@ public class Player : MonoBehaviour
         _cameraPitch.eulerAngles = euler;
 
         //raycast
-        Vector3 origin = Vector3.zero;
-        Vector3 direction = Vector3.zero;
-        float maxDistance = 10;
+        Vector3 origin = _cameraPoint.position;
+        Vector3 direction = -_camera.forward;
+        float maxDistance = _maxCameraDistance - _cameraZoom;
         RaycastHit hitInfo;
 
-        bool raycastHit = Physics.Raycast(origin: origin, direction: direction, hitInfo: out hitInfo, maxDistance: maxDistance);
+        bool raycastHit = Physics.SphereCast(origin: origin, radius: _cameraRadius, direction: direction, hitInfo: out hitInfo, maxDistance: maxDistance);
 
-        _camera.transform.localPosition = new Vector3(0, 0, raycastHit ? -hitInfo.point.z : -maxDistance);
+        _camera.transform.localPosition = new Vector3(0, 0, raycastHit ? -hitInfo.distance : -maxDistance);
+
+        //zoom
+        float scrollDelta = _action.Player.Zoom.ReadValue<Vector2>().y;
+
+        //check scroll to adjust max
+        if(scrollDelta != 0)
+        {
+            
+        }
+
+        _cameraZoom = Mathf.Clamp(_cameraZoom + scrollDelta, 0, _maxCameraDistance);
     }
 
     void Mine()
     {
         print("mine!");
+
+        // bool raycastHit = Physics.SphereCast()
     }
 }
